@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace FeatureTrackerAPI.Controllers
+namespace FeatureManagementTracker.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

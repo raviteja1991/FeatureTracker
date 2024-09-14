@@ -1,4 +1,4 @@
-namespace FeatureTrackerAPI
+namespace FeatureManagementTracker.Server
 {
     public class WeatherForecast
     {

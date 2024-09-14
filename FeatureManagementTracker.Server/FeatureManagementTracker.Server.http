@@ -1,0 +1,6 @@
+@FeatureManagementTracker.Server_HostAddress = http://localhost:5289
+
+GET {{FeatureManagementTracker.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

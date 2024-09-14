@@ -1,5 +1,5 @@
 
-namespace FeatureTrackerAPI
+namespace FeatureManagementTracker.Server
 {
     public class Program
     {
@@ -16,6 +16,9 @@ namespace FeatureTrackerAPI
 
             var app = builder.Build();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -29,6 +32,8 @@ namespace FeatureTrackerAPI
 
 
             app.MapControllers();
+
+            app.MapFallbackToFile("/index.html");
 
             app.Run();
         }
