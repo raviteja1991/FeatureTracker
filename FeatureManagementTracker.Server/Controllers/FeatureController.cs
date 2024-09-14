@@ -49,25 +49,34 @@ public class FeatureController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        if (!Enum.TryParse(feature.Status, true, out Status status))
+        try
         {
-            return BadRequest("Invalid status value.");
-        }
+            if (!Enum.TryParse(feature.Status, true, out Status status))
+            {
+                return BadRequest("Invalid status value.");
+            }
 
-        if (status == Status.Active && feature.TargetCompletionDate == null)
+            if (status == Status.Active && feature.TargetCompletionDate == null)
+            {
+                return BadRequest("TargetCompletionDate must be provided when Status is Active.");
+            }
+
+            if (status == Status.Closed && feature.ActualCompletionDate == null)
+            {
+                return BadRequest("ActualCompletionDate must be provided when Status is Closed.");
+            }
+
+            _context.Features.Add(feature);
+            await _context.SaveChangesAsync();
+
+            return Ok(feature);
+        }
+        catch (Exception ex)
         {
-            return BadRequest("TargetCompletionDate must be provided when Status is Active.");
+            Console.WriteLine(ex.ToString());
+
+            return BadRequest(ex.ToString());
         }
-
-        if (status == Status.Closed && feature.ActualCompletionDate == null)
-        {
-            return BadRequest("ActualCompletionDate must be provided when Status is Closed.");
-        }
-
-        _context.Features.Add(feature);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetFeatureByIdAsync), new { id = feature.Id }, feature);
     }
 
     // PUT: api/feature/5
@@ -76,45 +85,65 @@ public class FeatureController : ControllerBase
     {
         if (id != feature.Id)
         {
-            return BadRequest("Feature ID mismatch.");
+            return Ok(new { status = "0", message = "Feature ID mismatch." });
         }
 
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            return Ok(new { status = "0", message = "Invalid model state.", errors = ModelState });
         }
-
-        if (!Enum.TryParse(feature.Status, true, out Status status))
-        {
-            return BadRequest("Invalid status value.");
-        }
-
-        if (status == Status.Active && feature.TargetCompletionDate == null)
-        {
-            return BadRequest("TargetCompletionDate must be provided when Status is Active.");
-        }
-
-        if (status == Status.Closed && feature.ActualCompletionDate == null)
-        {
-            return BadRequest("ActualCompletionDate must be provided when Status is Closed.");
-        }
-
-        _context.Entry(feature).State = EntityState.Modified;
 
         try
         {
+            if (!Enum.TryParse(feature.Status, true, out Status status))
+            {
+                return Ok(new { status = "0", message = "Invalid status value." });
+            }
+
+            if (status == Status.Active && feature.TargetCompletionDate == null)
+            {
+                return Ok(new { status = "0", message = "TargetCompletionDate must be provided when Status is Active." });
+            }
+
+            if (status == Status.Closed && feature.ActualCompletionDate == null)
+            {
+                return Ok(new { status = "0", message = "ActualCompletionDate must be provided when Status is Closed." });
+            }
+
+            Feature updateFeature = await _context.Features.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (updateFeature == null)
+            {
+                return Ok(new { status = "0", message = $"Feature with ID {id} not found." });
+            }
+
+            updateFeature.Title = feature.Title;
+            updateFeature.Description = feature.Description;
+            updateFeature.Status = feature.Status;
+            updateFeature.TargetCompletionDate = feature.TargetCompletionDate;
+            updateFeature.ActualCompletionDate = feature.ActualCompletionDate;
+
             await _context.SaveChangesAsync();
+
+            return Ok(new { status = "1", message = "Feature updated successfully.", feature = updateFeature });
         }
         catch (DbUpdateConcurrencyException)
         {
             if (!FeatureExists(id))
             {
-                return NotFound($"Feature with ID {id} not found.");
+                return Ok(new { status = "0", message = $"Feature with ID {id} not found." });
             }
-            throw;
+            return Ok(new { status = "0", message = "A concurrency error occurred while updating the feature." });
         }
-
-        return NoContent();
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            return Ok(new { status = "0", message = "An unexpected error occurred." });
+        }
+        finally
+        {
+            Console.WriteLine("Update operation completed.");
+        }
     }
 
     // DELETE: api/feature/5

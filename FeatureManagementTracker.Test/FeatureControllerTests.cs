@@ -59,7 +59,7 @@ namespace FeatureManagementTracker.Tests
         }
 
         [Fact]
-        public async Task CreateFeatureAsync_ShouldReturnCreatedAtAction_WhenFeatureIsValid()
+        public async Task CreateFeatureAsync_ShouldReturnOkResult_WhenFeatureIsValid()
         {
             // Arrange
             var newFeature = new Feature { Id = 3, Title = "New Feature", Description = "New Description", EstimatedComplexity = "S", Status = "New" };
@@ -68,7 +68,7 @@ namespace FeatureManagementTracker.Tests
             var result = await _controller.CreateFeatureAsync(newFeature);
 
             // Assert
-            var createdResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var createdResult = Assert.IsType<OkObjectResult>(result.Result);
             var createdFeature = Assert.IsType<Feature>(createdResult.Value);
             Assert.Equal(newFeature.Id, createdFeature.Id);
         }
@@ -94,7 +94,14 @@ namespace FeatureManagementTracker.Tests
             var result = await _controller.UpdateFeatureAsync(existingFeature.Id, existingFeature);
 
             // Assert
-            Assert.IsType<NoContentResult>(result);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var response = okResult.Value;
+
+            // Assert the dynamic response properties
+            Assert.Equal("1", (string)response.GetType().GetProperty("status").GetValue(response, null));
+            Assert.Equal("Feature updated successfully.", (string)response.GetType().GetProperty("message").GetValue(response, null));
+            var updatedFeature = response.GetType().GetProperty("feature").GetValue(response, null) as Feature;
+            Assert.Equal(existingFeature.Id, updatedFeature.Id);
         }
 
         [Fact]
