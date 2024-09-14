@@ -1,7 +1,7 @@
 export interface Feature {
-  id: number;
+  id?: number;
   title: string;
-  description?: string;
+  description: string;
   complexity: 'S' | 'M' | 'L' | 'XL';
   status: 'New' | 'Active' | 'Closed' | 'Abandoned';
   targetDate?: Date;

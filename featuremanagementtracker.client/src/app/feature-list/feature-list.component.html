@@ -1,27 +1,37 @@
-<div>
-  <h1>Feature List</h1>
-  <button (click)="navigateToCreate()">Create New Feature</button>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Complexity</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let feature of features">
-        <td>{{ feature.title }}</td>
-        <td>{{ feature.description }}</td>
-        <td>{{ feature.complexity }}</td>
-        <td>{{ feature.status }}</td>
-        <td>
-          <button *ngIf="feature.id !== undefined" (click)="navigateToEdit(feature.id)">Edit</button>
-          <button *ngIf="feature.id !== undefined" (click)="deleteFeature(feature.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <h1>Feature Tracker</h1>
+  <button class="create-button" (click)="navigateToCreate()">Create Feature</button>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Complexity</th>
+          <th>Status</th>
+          <th>Target Completion Date</th>
+          <th>Actual Completion Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let feature of features">
+          <td>{{ feature.id }}</td>
+          <td>{{ feature.title }}</td>
+          <td>{{ feature.description }}</td>
+          <td>{{ feature.complexity }}</td>
+          <td>{{ feature.status }}</td>
+          <td>{{ feature.targetDate | date }}</td>
+          <td>{{ feature.actualDate | date }}</td>
+          <td>
+            <div class="action-buttons">
+              <button *ngIf="feature.id !== undefined" (click)="navigateToEdit(feature.id)">Edit</button>
+              <button *ngIf="feature.id !== undefined" (click)="deleteFeature(feature.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

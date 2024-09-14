@@ -13,6 +13,18 @@ namespace FeatureManagementTracker.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Configure CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200") // Angular app URL
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+            });
+
             var conStr = builder.Configuration.GetConnectionString("DefaultConnection");
 
             // Add services to the container.
@@ -46,8 +58,10 @@ namespace FeatureManagementTracker.Server
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            // Use CORS policy
+            app.UseCors("AllowSpecificOrigin");
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

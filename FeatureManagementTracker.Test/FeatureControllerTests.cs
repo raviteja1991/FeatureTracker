@@ -1,5 +1,6 @@
 using FeatureManagementTracker.Data;
 using FeatureManagementTracker.Server.Controllers;
+using FeatureManagementTracker.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -43,7 +44,7 @@ namespace FeatureManagementTracker.Tests
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            var returnedFeatures = Assert.IsType<List<Feature>>(okResult.Value);
+            var returnedFeatures = Assert.IsType<List<FeatureModel>>(okResult.Value);
             Assert.Equal(2, returnedFeatures.Count);
         }
 
@@ -62,14 +63,14 @@ namespace FeatureManagementTracker.Tests
         public async Task CreateFeatureAsync_ShouldReturnOkResult_WhenFeatureIsValid()
         {
             // Arrange
-            var newFeature = new Feature { Id = 3, Title = "New Feature", Description = "New Description", EstimatedComplexity = "S", Status = "New" };
+            var newFeature = new FeatureModel { Id = 3, Title = "New Feature", Description = "New Description", Complexity = "S", Status = "New" };
 
             // Act
             var result = await _controller.CreateFeatureAsync(newFeature);
 
             // Assert
             var createdResult = Assert.IsType<OkObjectResult>(result.Result);
-            var createdFeature = Assert.IsType<Feature>(createdResult.Value);
+            var createdFeature = Assert.IsType<FeatureModel>(createdResult.Value);
             Assert.Equal(newFeature.Id, createdFeature.Id);
         }
 
@@ -84,24 +85,38 @@ namespace FeatureManagementTracker.Tests
             }
 
             // Update the existing feature properties
-            existingFeature.Title = "Updated Feature";
-            existingFeature.Description = "Updated Description";
-            existingFeature.EstimatedComplexity = "XL";
-            existingFeature.Status = "Active";
-            existingFeature.TargetCompletionDate = new DateTime(2024, 12, 31);
+            var updatedFeatureModel = new FeatureModel
+            {
+                Id = existingFeature.Id,
+                Title = "Updated Feature",
+                Description = "Updated Description",
+                Complexity = "XL",
+                Status = "Active",
+                TargetDate = new DateTime(2024, 12, 31),
+                ActualDate = existingFeature.ActualCompletionDate // Assuming this remains unchanged
+            };
 
             // Act
-            var result = await _controller.UpdateFeatureAsync(existingFeature.Id, existingFeature);
+            var result = await _controller.UpdateFeatureAsync(updatedFeatureModel.Id.Value, updatedFeatureModel);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             var response = okResult.Value;
 
-            // Assert the dynamic response properties
+            // Check the response for a success message and status
             Assert.Equal("1", (string)response.GetType().GetProperty("status").GetValue(response, null));
             Assert.Equal("Feature updated successfully.", (string)response.GetType().GetProperty("message").GetValue(response, null));
-            var updatedFeature = response.GetType().GetProperty("feature").GetValue(response, null) as Feature;
-            Assert.Equal(existingFeature.Id, updatedFeature.Id);
+
+            // Assert the updated feature details
+            var returnedFeature = response.GetType().GetProperty("feature").GetValue(response, null) as Feature;
+            Assert.NotNull(returnedFeature);
+            Assert.Equal(updatedFeatureModel.Id, returnedFeature.Id);
+            Assert.Equal(updatedFeatureModel.Title, returnedFeature.Title);
+            Assert.Equal(updatedFeatureModel.Description, returnedFeature.Description);
+            Assert.Equal(updatedFeatureModel.Complexity, returnedFeature.EstimatedComplexity);
+            Assert.Equal(updatedFeatureModel.Status, returnedFeature.Status);
+            Assert.Equal(updatedFeatureModel.TargetDate, returnedFeature.TargetCompletionDate);
+            Assert.Equal(updatedFeatureModel.ActualDate, returnedFeature.ActualCompletionDate);
         }
 
         [Fact]

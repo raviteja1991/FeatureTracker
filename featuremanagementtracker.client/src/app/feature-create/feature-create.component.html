@@ -1,52 +1,49 @@
-<div>
-  <h1>Create New Feature</h1>
+<div class="container">
+  <h1>Create Feature</h1>
   <form [formGroup]="featureForm" (ngSubmit)="onSubmit()">
-    <label>
-      Title:
-      <input formControlName="title" required>
-    </label>
-    <br>
-    <label>
-      Description:
-      <textarea formControlName="description"></textarea>
-    </label>
-    <br>
-    <label>
-      Complexity:
-      <select formControlName="complexity">
-        <option value="">Select</option>
-        <option value="S">Small</option>
-        <option value="M">Medium</option>
-        <option value="L">Large</option>
-        <option value="XL">Extra Large</option>
-      </select>
-    </label>
-    <br>
-    <label>
-      Status:
-      <select formControlName="status">
-        <option value="">Select</option>
-        <option value="New">New</option>
-        <option value="Active">Active</option>
-        <option value="Closed">Closed</option>
-        <option value="Abandoned">Abandoned</option>
-      </select>
-    </label>
-    <br>
-    <div *ngIf="featureForm.get('status')?.value === 'Active'">
-      <label>
-        Target Date:
-        <input type="date" formControlName="targetDate">
-      </label>
-      <br>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input id="title" formControlName="title" required>
     </div>
-    <div *ngIf="featureForm.get('status')?.value === 'Closed'">
-      <label>
-        Actual Date:
-        <input type="date" formControlName="actualDate">
-      </label>
-      <br>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
     </div>
-    <button type="submit">Save</button>
+    <div class="form-group form-group-inline">
+      <div class="form-item">
+        <label for="complexity">Estimated Complexity:</label>
+        <select id="complexity" formControlName="complexity">
+          <option value="">Select</option>
+          <option value="s">Small</option>
+          <option value="m">Medium</option>
+          <option value="l">Large</option>
+          <option value="xl">Extra Large</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <label for="status">Status:</label>
+        <select id="status" formControlName="status">
+          <option value="">Select</option>
+          <option value="new">New</option>
+          <option value="active">Active</option>
+          <option value="closed">Closed</option>
+          <option value="abandoned">Abandoned</option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="featureForm.get('status')?.value === 'active'" class="form-group">
+      <label for="targetDate">Target Date:</label>
+      <input id="targetDate" type="date" formControlName="targetDate">
+    </div>
+    <div *ngIf="featureForm.get('status')?.value === 'closed'" class="form-group">
+      <label for="actualDate">Actual Date:</label>
+      <input id="actualDate" type="date" formControlName="actualDate">
+    </div>
+    <div class="button-group">
+      <button type="submit">Create</button>
+    </div>
+    <div *ngIf="isSubmitted && featureForm.invalid && (featureForm.dirty || featureForm.touched)" class="common-error-message">
+      Please fill in all required fields correctly.
+    </div>
   </form>
 </div>

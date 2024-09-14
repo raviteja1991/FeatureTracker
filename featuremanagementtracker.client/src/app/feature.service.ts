@@ -25,14 +25,26 @@ export class FeatureService {
     );
   }
 
+  cleanEmptyStrings(obj: any): any {
+    return Object.keys(obj).reduce((acc, key) => {
+      acc[key] = obj[key] === "" ? null : obj[key];
+      return acc;
+    }, {} as any);
+  }
+
   createFeature(feature: Feature): Observable<Feature> {
-    return this.http.post<Feature>(this.apiUrl, feature).pipe(
+
+    const payload = this.cleanEmptyStrings(feature);
+
+    return this.http.post<Feature>(this.apiUrl, payload).pipe(
       catchError(this.handleError)
     );
   }
 
   updateFeature(id: number, feature: Feature): Observable<Feature> {
-    return this.http.put<Feature>(`${this.apiUrl}/${id}`, feature).pipe(
+    const payload = this.cleanEmptyStrings(feature);
+
+    return this.http.put<Feature>(`${this.apiUrl}/${id}`, payload).pipe(
       catchError(this.handleError)
     );
   }
@@ -44,7 +56,7 @@ export class FeatureService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.error('An Error Occured', error.error.message);
+    console.error('An Error Occured', error);
     return throwError(() => new Error('Something went wrong; please try again later.'));
   }
 }
