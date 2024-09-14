@@ -20,6 +20,7 @@
     <ProjectReference Include="..\featuremanagementtracker.client\featuremanagementtracker.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\FeatureManagementTracker.Data\FeatureManagementTracker.Data.csproj" />
   </ItemGroup>
 
 </Project>
