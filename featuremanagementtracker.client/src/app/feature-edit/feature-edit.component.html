@@ -1,0 +1,47 @@
+<div>
+  <h1>Edit Feature</h1>
+  <form [formGroup]="featureForm" (ngSubmit)="onSubmit()">
+    <label>
+      Title:
+      <input formControlName="title" required>
+    </label>
+    <br>
+    <label>
+      Description:
+      <textarea formControlName="description"></textarea>
+    </label>
+    <br>
+    <label>
+      Complexity:
+      <select formControlName="complexity">
+        <option value="S">Small</option>
+        <option value="M">Medium</option>
+        <option value="L">Large</option>
+        <option value="XL">Extra Large</option>
+      </select>
+    </label>
+    <br>
+    <label>
+      Status:
+      <select formControlName="status">
+        <option value="New">New</option>
+        <option value="Active">Active</option>
+        <option value="Closed">Closed</option>
+        <option value="Abandoned">Abandoned</option>
+      </select>
+    </label>
+    <br>
+    <label *ngIf="featureForm.get('status')?.value === 'Active'">
+      Target Date:
+      <input type="date" formControlName="targetDate">
+    </label>
+    <br>
+    <label *ngIf="featureForm.get('status')?.value === 'Closed'">
+      Actual Date:
+      <input type="date" formControlName="actualDate">
+    </label>
+    <br>
+    <button type="submit">Update</button>
+    <button type="button" (click)="deleteFeature()">Delete</button>
+  </form>
+</div>

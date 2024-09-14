@@ -1,0 +1,27 @@
+<div>
+  <h1>Feature List</h1>
+  <button (click)="navigateToCreate()">Create New Feature</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Complexity</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let feature of features">
+        <td>{{ feature.title }}</td>
+        <td>{{ feature.description }}</td>
+        <td>{{ feature.complexity }}</td>
+        <td>{{ feature.status }}</td>
+        <td>
+          <button *ngIf="feature.id !== undefined" (click)="navigateToEdit(feature.id)">Edit</button>
+          <button *ngIf="feature.id !== undefined" (click)="deleteFeature(feature.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,17 @@
+h1 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+label {
+  margin: 10px 0;
+}
+
+button {
+  margin-top: 20px;
+}

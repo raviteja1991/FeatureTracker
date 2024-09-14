@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-//import { HomeComponent } from './home/home.component';
-//import { AboutComponent } from './about/about.component';
+import { FeatureListComponent } from './feature-list/feature-list.component';
+import { FeatureCreateComponent } from './feature-create/feature-create.component';
+import { FeatureEditComponent } from './feature-edit/feature-edit.component';
+import { FeatureDetailComponent } from './feature-detail/feature-detail.component';
 
 const routes: Routes = [
-  //{ path: '', component: HomeComponent },
-  //{ path: 'about', component: AboutComponent },
-  // Add more routes here
+  { path: 'feature-list', component: FeatureListComponent },
+  { path: 'feature-create', component: FeatureCreateComponent },
+  { path: 'feature-edit/:id', component: FeatureEditComponent },
+  { path: 'feature-detail/:id', component: FeatureDetailComponent },
+  { path: '', redirectTo: '/feature-list', pathMatch: 'full' },
+  { path: '**', redirectTo: '/feature-list' }
 ];
 
 @NgModule({
