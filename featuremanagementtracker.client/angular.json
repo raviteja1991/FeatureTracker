@@ -95,7 +95,24 @@
             "scripts": [],
             "karmaConfig": "karma.conf.js"
           }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "protractor.conf.js",
+            "devServerTarget": "featuremanagementtracker.client:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "featuremanagementtracker.client:serve:production"
+            },
+            "development": {
+              "devServerTarget": "featuremanagementtracker.client:serve:development"
+            }
+          },
+          "defaultConfiguration": "development"
         }
+
       }
     }
   }
