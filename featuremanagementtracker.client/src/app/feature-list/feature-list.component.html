@@ -1,6 +1,10 @@
 <div class="container">
   <h1>Feature Tracker</h1>
   <button class="create-button" (click)="navigateToCreate()">Create Feature</button>
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+    <button class="close-button" (click)="closeMessage()">x</button>
+  </div>
   <div class="table-wrapper">
     <table>
       <thead>
@@ -26,8 +30,8 @@
           <td>{{ feature.actualDate | date }}</td>
           <td>
             <div class="action-buttons">
-              <button *ngIf="feature.id !== undefined" (click)="navigateToEdit(feature.id)">Edit</button>
-              <button *ngIf="feature.id !== undefined" (click)="deleteFeature(feature.id)">Delete</button>
+              <button class="edit" *ngIf="feature.id !== undefined" (click)="navigateToEdit(feature.id)">Edit</button>
+              <button class="delete" *ngIf="feature.id !== undefined" (click)="deleteFeature(feature.id)">Delete</button>
             </div>
           </td>
         </tr>

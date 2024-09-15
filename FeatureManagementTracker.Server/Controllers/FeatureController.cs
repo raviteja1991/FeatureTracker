@@ -69,28 +69,23 @@ public class FeatureController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            Console.WriteLine("Invalid Model State");
             return BadRequest(ModelState);
         }
 
         try
         {
-            Console.WriteLine($"Feature Status: {feature.Status}");
             if (!Enum.TryParse(feature.Status, true, out Status status))
             {
-                Console.WriteLine("Invalid Status");
                 return BadRequest("Invalid status value.");
             }
 
             if (status == Status.Active && feature.TargetDate == null)
             {
-                Console.WriteLine("Missing Target Completion Date");
                 return BadRequest("TargetCompletionDate must be provided when Status is Active.");
             }
 
             if (status == Status.Closed && feature.ActualDate == null)
             {
-                Console.WriteLine("Missing Actual Completion Date");
                 return BadRequest("ActualCompletionDate must be provided when Status is Closed.");
             }
 

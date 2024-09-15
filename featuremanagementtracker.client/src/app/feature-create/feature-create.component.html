@@ -1,5 +1,10 @@
 <div class="container">
   <h1>Create Feature</h1>
+  <div>
+    <button class="back-button" (click)="navigateBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
   <form [formGroup]="featureForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="title">Title:</label>
@@ -31,12 +36,18 @@
         </select>
       </div>
     </div>
-    <div *ngIf="featureForm.get('status')?.value === 'active'" class="form-group">
-      <label for="targetDate">Target Date:</label>
+    <div class="form-group">
+      <label for="targetDate">
+        Target Date:
+        <span style="color:red;" *ngIf="featureForm.get('status')?.value === 'active' && featureForm.get('targetDate')?.hasError('required')">*</span>
+      </label>
       <input id="targetDate" type="date" formControlName="targetDate">
     </div>
-    <div *ngIf="featureForm.get('status')?.value === 'closed'" class="form-group">
-      <label for="actualDate">Actual Date:</label>
+    <div class="form-group">
+      <label for="actualDate">
+        Actual Date:
+        <span style="color:red;" *ngIf="featureForm.get('status')?.value === 'closed' && featureForm.get('actualDate')?.hasError('required')">*</span>
+      </label>
       <input id="actualDate" type="date" formControlName="actualDate">
     </div>
     <div class="button-group">

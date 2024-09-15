@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FeatureService } from '../feature.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-feature-edit',
@@ -14,7 +16,8 @@ export class FeatureEditComponent implements OnInit {
   featureId!: number;
   isSubmitted = false;
 
-  constructor(private fb: FormBuilder, private featureService: FeatureService, private router: Router, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private featureService: FeatureService,
+    private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {
     this.featureForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -106,8 +109,16 @@ export class FeatureEditComponent implements OnInit {
   }
 
   deleteFeature(): void {
-    if (confirm('Are you sure you want to delete this feature?')) {
-      this.featureService.deleteFeature(this.featureId).subscribe(() => this.router.navigate(['/feature-list']));
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.featureService.deleteFeature(this.featureId).subscribe(() => this.router.navigate(['/feature-list']));
+      }
+    });
+  }
+
+  navigateBack(): void {
+    this.router.navigate(['/feature-list']);
   }
 }

@@ -58,4 +58,8 @@ export class FeatureCreateComponent {
       console.log('Form is invalid');
     }
   }
+
+  navigateBack(): void {
+    this.router.navigate(['/feature-list']);
+  }
 }

@@ -1,10 +1,26 @@
 .container {
+  position: relative;
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 8px;
   background-color: #f9f9f9;
 }
+
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #000;
+}
+
+  .back-button mat-icon {
+    font-size: 24px;
+  }
 
 h1 {
   margin-bottom: 20px;
@@ -22,18 +38,18 @@ form {
   margin-bottom: 15px;
 }
 
-.form-group label {
-  width: 150px;
-  text-align: right;
-  margin-right: 10px;
-}
+  .form-group label {
+    width: 150px;
+    text-align: right;
+    margin-right: 10px;
+  }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
-  flex: 1;
-  padding: 8px;
-}
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    flex: 1;
+    padding: 8px;
+  }
 
 textarea {
   height: 100px;
@@ -63,21 +79,25 @@ textarea {
 
 button {
   padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  color: #000;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
+  button:hover {
+    color: white;
+    background-color: #0056b3;
+  }
 
-button:disabled {
-  background-color: #d6d6d6;
-  cursor: not-allowed;
-}
+  button.back-button:hover {
+    background-color: #e3e3e3;
+  }
+
+  button:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+  }
 
 .common-error-message {
   color: #d9534f;

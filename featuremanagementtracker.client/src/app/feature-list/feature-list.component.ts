@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FeatureService } from '../feature.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Feature } from '../FeatureModels/feature.model';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-feature-list',
@@ -13,15 +13,18 @@ import { Router } from '@angular/router';
 export class FeatureListComponent implements OnInit {
 
   features: Feature[] = [];
+  successMessage: string | null = null;
 
-  constructor(private featureService: FeatureService, private router: Router) { }
+  constructor(private featureService: FeatureService, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.loadFeatures();
+    this.loadFeatures(true);
   }
 
-  loadFeatures(): void {
-    this.featureService.getFeatures().subscribe((data: Feature[]) => this.features = data);
+  loadFeatures(resetMsg: boolean = false): void {
+    this.featureService.getFeatures().subscribe((data: Feature[]) => {
+      this.features = data;
+    });
   }
 
   navigateToCreate(): void {
@@ -38,11 +41,29 @@ export class FeatureListComponent implements OnInit {
 
   deleteFeature(id: number | undefined): void {
     if (id !== undefined) {
-      if (confirm('Are you sure you want to delete this feature?')) {
-        this.featureService.deleteFeature(id).subscribe(() => this.loadFeatures());
-      }
+      const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.featureService.deleteFeature(id).subscribe(() => {
+            this.loadFeatures();
+            this.successMessage = 'Feature deleted successfully.';
+          //  this.autoCloseMessage();
+          });
+        }
+      });
     } else {
       console.error('Feature ID is undefined.');
     }
+  }
+
+  closeMessage(): void {
+    this.successMessage = null;
+  }
+
+  autoCloseMessage(): void {
+    setTimeout(() => {
+      this.successMessage = null;
+    }, 5000);
   }
 }

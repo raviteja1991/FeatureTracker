@@ -10,16 +10,17 @@
   max-width: 800px;
   margin-top: 20px;
 }
-  
+
 table {
   width: 100%;
   border-collapse: collapse;
+  border-radius:5px;
 }
 
 .create-button {
-  height: 50px; 
+  height: 50px;
   margin: 10px 0;
-  border-radius:10px;
+  border-radius: 10px;
 }
 
 th, td {
@@ -44,6 +45,50 @@ h1 {
   gap: 10px;
 }
 
-  .action-buttons button {
+  .action-buttons button, .create-button {
     height: 30px;
+    padding: 10px;
+    border: none;
+    align-content: center;
+    border-radius: 5px;
+    cursor: pointer;
   }
+
+    .action-buttons button.edit:hover,
+    .create-button:hover {
+      color: white;
+      background-color: #0056b3
+    }
+
+    .action-buttons button.delete:hover {
+      color: white;
+      background-color: red
+    }
+
+.success-message {
+  position: relative;
+  padding: 15px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: opacity 0.5s ease;
+  width:25%;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #155724;
+}
+
+  .close-button:hover {
+    color: #0c5460;
+  }
+

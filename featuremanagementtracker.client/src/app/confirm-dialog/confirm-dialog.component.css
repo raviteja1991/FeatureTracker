@@ -5,3 +5,38 @@ h2 {
 button {
   margin: 10px;
 }
+
+.mat-dialog-container {
+  min-width: 300px;
+  padding: 20px;
+}
+
+.mat-dialog-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.mat-dialog-content {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+  .mat-dialog-actions button {
+    margin-left: 10px;
+    font-weight: 600;
+  }
+
+button.mat-button {
+  color: #555555;
+}
+
+  button.mat-button.warn {
+    color: #ff0000;
+    font-weight: 600;
+  }

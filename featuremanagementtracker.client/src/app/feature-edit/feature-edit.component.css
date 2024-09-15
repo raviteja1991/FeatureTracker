@@ -1,10 +1,26 @@
 .container {
+  position: relative;
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 8px;
   background-color: #f9f9f9;
 }
+
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #000;
+}
+
+  .back-button mat-icon {
+    font-size: 24px;
+  }
 
 h1 {
   margin-bottom: 20px;
@@ -57,8 +73,7 @@ textarea {
 
 button {
   padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  color: #000;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -66,6 +81,16 @@ button {
 
   button:hover {
     background-color: #0056b3;
+    color: white;
+  }
+
+  button.back-button:hover {
+    background-color: #e3e3e3;
+    color: white;
+  }
+
+  button.delete:hover {
+    background-color: red;
   }
 
 .common-error-message {
