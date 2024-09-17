@@ -72,19 +72,7 @@ namespace FeatureManagementTracker.Server
 
         private static void SeedData(FeatureDBContext context)
         {
-            // I am seeding data to insert records into the table, this assumes the DB already exists.
-
-            // SQL Query to create DB tabel features in a new DB : FeatureManagementDB
-
-            //CREATE TABLE Features(
-            //    Id INT PRIMARY KEY IDENTITY,
-            //    Title NVARCHAR(1000) NOT NULL,
-            //    Description NVARCHAR(MAX),
-            //    EstimatedComplexity NVARCHAR(2),
-            //    Status NVARCHAR(20),
-            //    TargetCompletionDate DATETIME,
-            //    ActualCompletionDate DATETIME
-            //);
+            // seeding data to insert records into the Features table, this assumes the DB already exists.
 
             if (!context.Features.Any())
             {

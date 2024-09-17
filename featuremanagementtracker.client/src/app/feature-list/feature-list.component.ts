@@ -48,7 +48,7 @@ export class FeatureListComponent implements OnInit {
           this.featureService.deleteFeature(id).subscribe(() => {
             this.loadFeatures();
             this.successMessage = 'Feature deleted successfully.';
-          //  this.autoCloseMessage();
+            this.autoCloseMessage();
           });
         }
       });
